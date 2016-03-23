@@ -5,29 +5,32 @@
  * 2. Gets a character after dash
  *
  */
+
 $u-space-units: 0, 0.5, 1, 2, 3, 4, 5;
 
-@mixin generate-spacing-classes-for($margin, $responsive-label) {
+@mixin generate-spacing-classes-for($margin, $responsive-size) {
     @each $spacing in $u-space-units {
         $spacing-label: $spacing;
         $classname:'';
+        $responsive-label:'';
+
         @if $margin == margin {
             @if $spacing == 0.5 {
-                $spacing-label: half; 
+                $spacing-label: half; // 1
             }
             $classname: space-#{$spacing-label};
         } @else {
-            @if $spacing == 0.5 { 
-                $spacing-label: -half; 
+            @if $spacing == 0.5 {
+                $spacing-label: -half; // 1
             }
             $side-abbr: str-slice($margin, 8, 8); // 2
             $classname: space-#{$side-abbr}#{$spacing-label};
         }
-        
-        @if ($responsive-label != ''){
-            $responsive-label: #{$responsive-label}#{'-'};
+
+        @if ($responsive-size != ''){
+            $responsive-label: #{$responsive-size}#{'-'};
         }
-        
+
         .u-#{$responsive-label}#{$classname} {
             #{$margin}: spacing($spacing) !important;
         }
