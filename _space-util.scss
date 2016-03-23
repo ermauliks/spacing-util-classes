@@ -1,4 +1,10 @@
-
+/**
+ * Spacing utilities
+ *
+ * 1. We want -half to be displayed in modifiers for spacing(0.5) since class names can't contain dot.
+ * 2. Gets a character after dash
+ *
+ */
 $u-space-units: 0, 0.5, 1, 2, 3, 4, 5;
 
 @mixin generate-spacing-classes-for($margin, $responsive-size) {
