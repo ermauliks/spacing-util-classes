@@ -1,30 +1,33 @@
 /**
- * Spacing utilities
+ * New spacing utilities
+ *
+ * Multiple of spacing.
  *
  * 1. We want -half to be displayed in modifiers for spacing(0.5) since class names can't contain dot.
- * 2. Gets a character after dash
- *
  */
 
 $u-space-units: 0, 0.5, 1, 2, 3, 4, 5;
 
-@mixin generate-spacing-classes-for($margin, $responsive-size) {
+@mixin generate-spacing-classes-for($margin-side, $responsive-size) {
     @each $spacing in $u-space-units {
         $spacing-label: $spacing;
-        $classname:'';
-        $responsive-label:'';
+        $classname: '';
+        $responsive-label: '';
+        $margin: '';
 
-        @if $margin == margin {
+        @if $margin-side == all {
             @if $spacing == 0.5 {
                 $spacing-label: half; // 1
             }
             $classname: space-#{$spacing-label};
+            $margin: margin;
         } @else {
             @if $spacing == 0.5 {
-                $spacing-label: -half; // 1
+                $spacing-label: -half;
             }
-            $side-abbr: str-slice($margin, 8, 8); // 2
+            $side-abbr: str-slice($margin-side, 1, 1);
             $classname: space-#{$side-abbr}#{$spacing-label};
+            $margin: margin-#{$margin-side};
         }
 
         @if ($responsive-size != ''){
@@ -37,24 +40,24 @@ $u-space-units: 0, 0.5, 1, 2, 3, 4, 5;
     }
 }
 
-$margin-list: margin, margin-left, margin-right, margin-top, margin-bottom;
+$margin-sides: all, left, right, top, bottom;
 
-@each $each-margin in $margin-list {
-    @include generate-spacing-classes-for($each-margin, '');
-}
-
-@include responsive-small {
-    .responsive {
-        @each $each-margin in $margin-list {
-            @include generate-spacing-classes-for($each-margin, 'sm');
-        }
-    }
+@each $margin-side in $margin-sides {
+    @include generate-spacing-classes-for($margin-side, '');
 }
 
 @include responsive-medium {
     .responsive {
-        @each $each-margin in $margin-list {
-            @include generate-spacing-classes-for($each-margin, 'md');
+        @each $margin-side in $margin-sides {
+            @include generate-spacing-classes-for($margin-side, 'md');
+        }
+    }
+}
+
+@include responsive-small {
+    .responsive {
+        @each $margin-side in $margin-sides {
+            @include generate-spacing-classes-for($margin-side, 'sm');
         }
     }
 }
